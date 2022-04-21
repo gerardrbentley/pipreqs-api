@@ -1,0 +1,13 @@
+{
+    "name": "FastAPI + Pipreqs Server",
+    "description": "A FastAPI Server to drive Pipreqs deployed to Heroku",
+    "repository": "https://github.com/gerardrbentley/pipreqs-api",
+    "keywords": [
+        "python",
+        "fastapi",
+        "pipreqs"
+    ],
+    "env": {
+        "ENVIRONMENT": "prod"
+    }
+}

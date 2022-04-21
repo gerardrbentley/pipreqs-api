@@ -8,6 +8,8 @@ Basic API to power bots / helpers to rid the world of Python projects without co
 Attempts to shallow `git clone` a given repo then run `pipreqs` on the codebase.
 Returns the resulting `requirements.txt` contents!
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/gerardrbentley/pipreqs-api)
+
 ## Roadmap
 
 - [ ] 🧪 Generation Options:
