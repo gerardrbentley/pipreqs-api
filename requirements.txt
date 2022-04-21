@@ -1,1 +1,1 @@
--r backend/requirements.txt
+-r streamlit_app/requirements.txt
