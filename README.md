@@ -20,8 +20,9 @@ Returns the resulting `requirements.txt` contents!
   - Auto open Github Pull Request with updated requirements
   - Allow partial repo / branch urls instead of full git url
   - Safe way to allow zip fetch / analysis?
-- [ ] 📺 Frontend:
+- [x] 📺 Frontend:
   - Streamlit app for requesting repo(s)
+  - Deployed on separate branch `streamlit_deploy` to contain requirements
 
 ## Local Run
 
