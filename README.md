@@ -10,6 +10,26 @@ Returns the resulting `requirements.txt` contents!
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/gerardrbentley/pipreqs-api)
 
+## How to Use
+
+- Use the [Streamlit frontend](https://share.streamlit.io/gerardrbentley/pipreqs-api/streamlit_deploy/streamlit_app/streamlit_app.py) 🎈
+- Use the fastapi generated [swagger docs](https://pipreqs-api.herokuapp.com/docs#/default/pipreqs_endpoint_pipreqs_get)
+- Use `curl` or other http client
+
+```sh
+curl "https://pipreqs-api.herokuapp.com/pipreqs?code_url=https://github.com/gerardrbentley/pipreqs-api"
+```
+
+Response
+```txt
+fastapi==0.75.2
+httpx==0.22.0
+pydantic==1.9.0
+pytest==7.1.1
+streamlit==1.8.1
+uvicorn==0.17.6
+```
+
 ## Roadmap
 
 - [ ] 🧪 Generation Options:
@@ -17,6 +37,7 @@ Returns the resulting `requirements.txt` contents!
   - Alternate PyPi server
   - Use requirements data to make conda `environment.yml` or `pyproject.toml`
 - [ ] 🤖 API Options:
+  - Caching / Cache Busting
   - Auto open Github Pull Request with updated requirements
   - Allow partial repo / branch urls instead of full git url
   - Safe way to allow zip fetch / analysis?
