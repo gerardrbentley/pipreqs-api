@@ -1,15 +1,18 @@
 import logging
 
+import uvicorn
 from fastapi import FastAPI
 
-from app import healthcheck
+from app import config, healthcheck, pipreqsapi
 
-log = logging.getLogger("gunicorn.error")
+log = config.get_logger()
+log.setLevel(logging.DEBUG)
 
 
 def create_application() -> FastAPI:
     application = FastAPI()
     application.include_router(healthcheck.router)
+    application.include_router(pipreqsapi.router)
 
     return application
 
@@ -25,3 +28,7 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     log.info("Shutting down...")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
