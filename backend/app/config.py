@@ -7,7 +7,8 @@ from pydantic import BaseSettings
 
 @functools.lru_cache()
 def get_logger():
-    return logging.getLogger("uvicorn")
+    logger = os.getenv("LOGGER", "uvicorn")
+    return logging.getLogger(logger)
 
 
 log = get_logger()

@@ -8,6 +8,7 @@
         "pipreqs"
     ],
     "env": {
-        "ENVIRONMENT": "prod"
+        "ENVIRONMENT": "prod",
+        "LOGGER": "gunicorn.error"
     }
 }
