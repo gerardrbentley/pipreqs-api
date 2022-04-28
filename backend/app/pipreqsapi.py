@@ -1,6 +1,8 @@
 import asyncio
+import functools
 import tempfile
 
+from cachetools import TTLCache
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import PlainTextResponse
 
@@ -48,9 +50,27 @@ async def run_pipreqs(code_url: str, dir_path: str):
     return stdout
 
 
-@router.get("/pipreqs", response_class=PlainTextResponse)
-async def pipreqs_endpoint(code_url: str):
+async def pipreqs_from_url(code_url: str) -> str:
     with tempfile.TemporaryDirectory() as dir_path:
         await fetch_code(code_url, dir_path)
         pipreqs_output = await run_pipreqs(code_url, dir_path)
     return pipreqs_output
+
+
+class RequirementsCache(TTLCache):
+    def __missing__(self, code_url):
+        future = asyncio.create_task(pipreqs_from_url(code_url))
+        self[code_url] = future
+        return future
+
+
+@functools.lru_cache(maxsize=1)
+def get_requirements_cache() -> RequirementsCache:
+    requirements_cache = RequirementsCache(1024, 300)
+    return requirements_cache
+
+
+@router.get("/pipreqs", response_class=PlainTextResponse)
+async def pipreqs_endpoint(code_url: str):
+    requirements_cache = get_requirements_cache()
+    return await requirements_cache[code_url]

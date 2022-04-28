@@ -7,7 +7,7 @@ lint: docker-compose.yml
 	docker-compose run backend python -m black . && python -m isort --profile=black . && python -m flake8 --config=./.flake8 .
 
 test: docker-compose.yml
-	docker-compose run backend python -m pytest --asyncio-mode=auto -ra -v -m "not e2e" --cov-report=html:coverage --cov-config=pyproject.toml --cov-report=term-missing --cov=. --cov-fail-under=5 ./tests
+	docker-compose run backend python -m pytest --asyncio-mode=auto -x --pdb -ra -v -m "not e2e" --cov-report=html:coverage --cov-config=pyproject.toml --cov-report=term-missing --cov=. --cov-fail-under=5 ./tests
 
 
 coverage: install
