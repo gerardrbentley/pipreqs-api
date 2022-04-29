@@ -56,5 +56,5 @@ async def main(request: Request):
         gh = gidgethub.httpx.GitHubAPI(
             client, "gerardrbentley", oauth_token=oauth_token
         )
-        await router.dispatch(event, gh)
+        await gh_router.dispatch(event, gh)
     return Response(status_code=200)
