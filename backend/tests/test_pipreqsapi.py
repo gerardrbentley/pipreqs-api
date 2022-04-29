@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from fastapi.exceptions import HTTPException
 
@@ -48,7 +50,18 @@ class TestPipreqsApi:
 
         monkeypatch.setattr(pipreqsapi, "_run", fake_run_success)
         res = await fetch_code("good_clone_url", "none")
-        assert res is None
+        assert res == ""
+
+    async def test_fetch_code_returns_requirements(self, monkeypatch, mocker):
+        async def fake_run_success(*args):
+            return None, None, 0
+
+        monkeypatch.setattr(pipreqsapi, "_run", fake_run_success)
+        mocker.patch.object(Path, "is_file", return_value=True)
+        mocker.patch.object(Path, "read_text", return_value=MOCK_REQS)
+
+        res = await fetch_code("good_clone_url", "none")
+        assert res == MOCK_REQS
 
     async def test_fetch_code_fails_bad_repo(self):
         with pytest.raises(HTTPException) as exception:
@@ -83,12 +96,12 @@ class TestPipreqsApi:
             return MOCK_REQS
 
         async def fake_fetch_success(*args):
-            return None
+            return ""
 
         monkeypatch.setattr(pipreqsapi, "run_pipreqs", fake_run_pipreqs_success)
         monkeypatch.setattr(pipreqsapi, "fetch_code", fake_fetch_success)
         reqs = await pipreqs_from_url("good_clone_url")
-        assert reqs == MOCK_REQS
+        assert reqs == (MOCK_REQS, "")
 
     async def test_pipreqs_from_url_fails_bad_repo(self):
         with pytest.raises(HTTPException) as exception:
@@ -128,7 +141,7 @@ class TestPipreqsApi:
 
     async def test_pipreqs_endpoint_succeeds(self, test_app, monkeypatch):
         async def fake_pipreqs_from_url_success(*args):
-            return MOCK_REQS
+            return (MOCK_REQS, "")
 
         monkeypatch.setattr(
             pipreqsapi, "pipreqs_from_url", fake_pipreqs_from_url_success
