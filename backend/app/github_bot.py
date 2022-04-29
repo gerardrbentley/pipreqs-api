@@ -2,7 +2,7 @@ import os
 
 import gidgethub.httpx
 import httpx
-from fastapi import APIRouter, Response, Request
+from fastapi import APIRouter, Request, Response
 from gidgethub import routing, sansio
 
 from app.config import get_logger

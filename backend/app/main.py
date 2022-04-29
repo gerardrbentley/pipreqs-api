@@ -3,7 +3,7 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 
-from app import config, healthcheck, pipreqsapi, github_bot
+from app import config, github_bot, healthcheck, pipreqsapi
 
 log = config.get_logger()
 log.setLevel(logging.DEBUG)
