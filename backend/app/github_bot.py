@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 import gidgethub.httpx
 import httpx
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Request
 from gidgethub import routing, sansio
 
 from app.config import get_logger
@@ -44,9 +44,9 @@ async def push_to_repo_event(event, gh, *args, **kwargs):
 
 
 @router.post("/", response_class=Response)
-async def main(request: Dict[Any, Any] = None):
+async def main(request: Request):
 
-    body = await request.read()
+    body = await request.body()
 
     secret = os.environ.get("GITHUB_SECRET")
     oauth_token = os.environ.get("GITHUB_TOKEN")
