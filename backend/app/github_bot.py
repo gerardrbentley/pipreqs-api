@@ -1,5 +1,4 @@
 import os
-from typing import Any, Dict
 
 import gidgethub.httpx
 import httpx
