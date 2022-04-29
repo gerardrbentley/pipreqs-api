@@ -25,6 +25,8 @@ async def issue_opened_event(event, gh, *args, **kwargs):
 
 @routes.post("/")
 async def main(request):
+    return web.Response(status=200, text="hello")
+
     body = await request.read()
 
     secret = os.environ.get("GH_SECRET")
