@@ -57,7 +57,7 @@ async def run_pipreqs(code_url: str, dir_path: str):
         log.exception(message, stack_info=True)
         raise HTTPException(status_code=500, detail=message)
     log.debug(stdout)
-    return stdout
+    return stdout.decode()
 
 
 async def pipreqs_from_url(code_url: str) -> str:
