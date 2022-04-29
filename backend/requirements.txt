@@ -1,5 +1,6 @@
 cachetools==5.0.0
 fastapi==0.75.1
+gidgethub==5.1.0
 gunicorn==20.1.0
 pipreqs==0.4.11
 uvicorn==0.17.6
