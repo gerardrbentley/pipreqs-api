@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import gidgethub.httpx
 import httpx
@@ -43,7 +44,7 @@ async def push_to_repo_event(event, gh, *args, **kwargs):
 
 
 @router.post("/", response_class=Response)
-async def main(request):
+async def main(request: Dict[Any, Any] = None):
 
     body = await request.read()
 
