@@ -14,7 +14,7 @@ log = get_logger()
 router = APIRouter()
 
 
-async def _run(cmd):
+async def _run(cmd) -> tuple:
     log.debug(f"Running {cmd!r}")
     proc = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
@@ -48,7 +48,7 @@ async def fetch_code(
         return ""
 
 
-async def run_pipreqs(code_url: str, dir_path: str):
+async def run_pipreqs(code_url: str, dir_path: str) -> str:
     log.debug(f"Running pipreqs on temporary directory {dir_path!r}")
     clone_cmd = f"pipreqs --print {dir_path}"
     stdout, stderr, returncode = await _run(clone_cmd)
