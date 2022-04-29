@@ -8,6 +8,8 @@ Basic API to power bots / helpers to rid the world of Python projects without co
 Attempts to shallow `git clone` a given repo then run `pipreqs` on the codebase.
 Returns the resulting `requirements.txt` contents!
 
+*NOTE:* Caches responses for a given url for 5 minutes or until it is evicted by LRU policy
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/gerardrbentley/pipreqs-api)
 
 ## How to Use
@@ -22,10 +24,11 @@ curl "https://pipreqs-api.herokuapp.com/pipreqs?code_url=https://github.com/gera
 
 Response
 ```txt
+cachetools==5.0.0
 fastapi==0.75.2
 httpx==0.22.0
 pydantic==1.9.0
-pytest==7.1.1
+pytest==7.1.2
 streamlit==1.8.1
 uvicorn==0.17.6
 ```
@@ -37,7 +40,8 @@ uvicorn==0.17.6
   - Alternate PyPi server
   - Use requirements data to make conda `environment.yml` or `pyproject.toml`
 - [ ] 🤖 API Options:
-  - Caching / Cache Busting
+  - [x] Caching
+  - [ ] Cache Busting
   - Auto open Github Pull Request with updated requirements
   - Allow partial repo / branch urls instead of full git url
   - Safe way to allow zip fetch / analysis?

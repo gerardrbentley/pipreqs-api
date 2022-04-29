@@ -7,7 +7,7 @@ st.write(
 )
 st.write("Made with ❤️ from [Gar's Bar](https://tech.gerardbentley.com/)")
 
-default_url = "https://github.com/gerardrbentley/pipreqs-api.git"
+default_url = "https://github.com/gerardrbentley/pipreqs-api"
 with st.form("form"):
     code_url = st.text_input("Git Code Url", default_url)
     submitted = st.form_submit_button("Generate Requirements")
