@@ -42,7 +42,8 @@ class TestPipreqsApi:
 
     async def test_async_run_fails_bad_command(self):
         stdout, stderr, resultcode = await _run("lz")
-        assert resultcode == 127
+        assert resultcode == 1
+        assert stderr == "[Errno 2] No such file or directory: 'lz'"
 
     async def test_fetch_code_succeeds(self, monkeypatch):
         async def fake_run_success(*args):

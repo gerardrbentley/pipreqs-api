@@ -2,6 +2,7 @@ import asyncio
 import functools
 import tempfile
 from pathlib import Path
+from typing import Any, Coroutine, Tuple
 
 from cachetools import TTLCache
 from fastapi import APIRouter, HTTPException
@@ -14,11 +15,17 @@ log = get_logger()
 router = APIRouter()
 
 
-async def _run(cmd) -> tuple:
+async def _run(cmd: str) -> Tuple[str, str, int]:
     log.debug(f"Running {cmd!r}")
-    proc = await asyncio.create_subprocess_shell(
-        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            *cmd.split(),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+    except Exception as e:
+        log.exception(e, stack_info=True)
+        return "", str(e), 1
     stdout, stderr = await proc.communicate()
 
     log.debug(f"[{cmd!r} exited with {proc.returncode}]")
@@ -26,7 +33,7 @@ async def _run(cmd) -> tuple:
         log.debug(f"[stdout]\n{stdout.decode()}")
     if stderr:
         log.debug(f"[stderr]\n{stderr.decode()}")
-    return stdout, stderr, proc.returncode
+    return stdout.decode(), stderr.decode(), proc.returncode
 
 
 async def fetch_code(
@@ -57,10 +64,10 @@ async def run_pipreqs(code_url: str, dir_path: str) -> str:
         log.exception(message, stack_info=True)
         raise HTTPException(status_code=500, detail=message)
     log.debug(stdout)
-    return stdout.decode()
+    return stdout
 
 
-async def pipreqs_from_url(code_url: str) -> str:
+async def pipreqs_from_url(code_url: str) -> Tuple[str, str]:
     with tempfile.TemporaryDirectory() as dir_path:
         old_requirements = await fetch_code(code_url, dir_path)
         pipreqs_output = await run_pipreqs(code_url, dir_path)
@@ -68,7 +75,7 @@ async def pipreqs_from_url(code_url: str) -> str:
 
 
 class RequirementsCache(TTLCache):
-    def __missing__(self, code_url):
+    def __missing__(self, code_url: str) -> Coroutine[Any, Any, Tuple[str, str]]:
         future = asyncio.create_task(pipreqs_from_url(code_url))
         self[code_url] = future
         return future
