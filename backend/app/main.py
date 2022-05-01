@@ -2,6 +2,7 @@ import logging
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app import config, github_bot, healthcheck, pipreqsapi
 
@@ -14,7 +15,7 @@ def create_application() -> FastAPI:
     application.include_router(healthcheck.router)
     application.include_router(pipreqsapi.router)
     application.include_router(github_bot.router)
-
+    application.add_middleware(CORSMiddleware, allow_origins="*")
     return application
 
 
