@@ -40,7 +40,7 @@ async def fetch_code(
     code_url: str, destination_dir: str, requirements_path: str = "requirements.txt"
 ) -> str:
     log.debug(f"Fetching from url {code_url!r}")
-    clone_cmd = f"git clone --depth 1 {code_url!r} {destination_dir!r}"
+    clone_cmd = f"git clone --depth 1 {code_url} {destination_dir}"
     stdout, stderr, returncode = await _run(clone_cmd)
     if returncode != 0:
         message = f"Could not clone the code from {code_url!r}!"
