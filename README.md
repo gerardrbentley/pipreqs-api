@@ -14,6 +14,7 @@ Returns the resulting `requirements.txt` contents!
 
 ## How to Use
 
+- Use the [pyscript frontend on github pages](https://gerardrbentley.github.io/pipreqs-api/)
 - Use the [Streamlit frontend](https://share.streamlit.io/gerardrbentley/pipreqs-api/streamlit_deploy/streamlit_app/streamlit_app.py) 🎈
 - Use the fastapi generated [swagger docs](https://pipreqs-api.herokuapp.com/docs#/default/pipreqs_endpoint_pipreqs_get)
 - Use `curl` or other http client
